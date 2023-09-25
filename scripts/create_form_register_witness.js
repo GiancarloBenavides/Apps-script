@@ -100,13 +100,11 @@ function getSheetData() {
     //let names = getRowsForCriteria(namesRange, zonesRange, 1);
     //let stations = getRowsForCriteria(stationsRange, codesRange, 101);
 
-    /*
     // Mapping of voting places name by zone
-    let namesForZone = new Map();
+    /*let namesForZone = new Map();
     zones.forEach((zone) => {
         namesForZone.set(zone, getRowsForCriteria(namesRange, zonesRange, zone));
-    });
-    */
+    });*/
 
     // Mapping of voting places code by zone
     let codesForZone = new Map();
@@ -126,6 +124,11 @@ function getSheetData() {
     return [zones, codes, codesForZone, namesForCode, stationsForCode];
 }
 
+/**
+ * Create options (station number) for place
+ * @param maxStation {number}
+ * @returns {Array<string>}
+ */
 function createStationsValues(maxStation) {
     let values = [];
     for (i = 0; i < maxStation; i++) {
@@ -179,15 +182,20 @@ function setDropList() {
             let newCheckbox = form.addCheckboxItem();
             newCheckbox.setTitle("Mesa de votación (Elige una opción)");
             newCheckbox.setChoiceValues(stations);
+
+            // set navigationItem for stations
             pagesPlace.get(codePlace).setGoToPage(FormApp.PageNavigationType.SUBMIT);
 
+            // set options and navigationItem for places
             placesChoices.push(newDropList.createChoice(optionPlace, pagesPlace.get(codePlace)));
 
         });
 
+        // set options and navigationItem for zones
         newDropList.setChoices(placesChoices);
         zonesChoices.push(listZone.createChoice(titleZona, pagesZone.get(zone)));
     });
 
+    // set options for zones
     listZone.setChoices(zonesChoices);
 }
