@@ -140,23 +140,20 @@ function createStationsValues(maxStation) {
  */
 function setDropList() {
     const form = resetForm();
-    // codes por zona, names por code 
-    //return [zones, codes, codesForZone, namesForCode, stationsForCode];
-
-    const namesForZone = [];
     const [zones, codes, codesForZone, namesForCode, stationsForCode] = getSheetData();
 
+    // ZONE  - SECTION
     let listZone = form.addListItem();
     listZone.setTitle("Zona de votación (Elige una opción)");
     let pagesZone = new Map();
     let pagesPlace = new Map();
     let zonesChoices = [];
 
-    //listZone.setChoiceValues(zones);
-
     zones.forEach((zone) => {
         let placesChoices = [];
         let titleZona = "Zona ".concat(zone);
+
+        // PLACE  - SECTION
         pagesZone.set(zone, form.addPageBreakItem());
         pagesZone.get(zone).setTitle(titleZona);
 
@@ -173,7 +170,8 @@ function setDropList() {
             Logger.log(codePlace);
             Logger.log(namePlace);
             Logger.log(stations);
-
+            
+            // STATION  - SECTION
             pagesPlace.set(codePlace, form.addPageBreakItem());
             pagesPlace.get(codePlace).setTitle(titlePlace);
             pagesPlace.get(codePlace).setHelpText(namePlace)
