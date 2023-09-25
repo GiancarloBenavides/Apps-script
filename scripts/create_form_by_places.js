@@ -1,4 +1,9 @@
 /**
+ * Customize the options of a google forms
+ * @author GncDev <@GncDev>
+ */
+
+/**
  * Gets the index of the last row with data from a column
  * @param sheet {Sheet}
  * @param column {number}
@@ -62,10 +67,11 @@ function createForms() {
 
         // DEBUG //
         Logger.log(form.getId());
-
+        
+        // create controls
         form.setDescription('Registro de reclamaciones y formularios para la Zona ' + zona + "y el puesto " + place);
         form.setCollectEmail(true);
-        form.setConfirmationMessage("Gracias por tu aporte, ahoran si!! Pasto tendra alcalde")
+        form.setConfirmationMessage("Gracias por tu aporte, ahora si!! Pasto tendrá Alcalde")
 
         let option = form.addMultipleChoiceItem();
         option.setTitle("¿Qué documento desea agregar ?");
@@ -79,6 +85,7 @@ function createForms() {
         pageE14.setTitle("Formulario E14");
         pageR.setHelpText("Agregue copia del Formulario E14");
 
+        // set navigationItem
         let choiceA = option.createChoice("Formulario E14", pageE14);
         let choiceB = option.createChoice("Reclamaciones", pageR);
         option.setChoices([choiceA, choiceB]);
