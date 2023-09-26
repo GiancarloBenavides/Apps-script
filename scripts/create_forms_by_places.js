@@ -108,7 +108,7 @@ function createPlaceForm(code, name) {
  * @param startRow {number}
  * @param endRow {number}
  */
-function createForms(startRow, endRow) {
+function createRangeForms(startRow, endRow) {
     const rowInit = 2;
     const colCodePlaces = 3;
     const colNamePlaces = 4;
@@ -149,6 +149,18 @@ function createForms(startRow, endRow) {
 /**
  * Update form for places
  */
-function updateForms() {
-    createForms(1, 2)
+function createForms() {
+    createRangeForms(1, 2)
+}
+
+/**
+ * Get files and permissions
+ */
+function getPermissions() {
+    // Zonas Folder
+    const folder = DriveApp.getFolderById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
+    const nameFolder = folder.getName();
+
+    // DEBUG //
+    Logger.log(nameFolder);
 }

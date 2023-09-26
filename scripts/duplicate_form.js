@@ -5,30 +5,49 @@
  */
 
 /**
- * get files and permissions
+ * duplicate a form in a specific folder
  * @param zone {number}
  * @param place {number}
- * 
  */
-function duplicateForm(zone, place) {
-    const name = "zona" + zone + "-puesto" + place;
-    const folderZone = DriveApp.getFolderById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
+function duplicatePlaceForm(zone, place) {
+    const duplicateName = "zona" + zone + "-puesto" + place;
+    const destinationFolder = DriveApp.getFolderById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
     const template = DriveApp.getFileById("1r4FM2T2oOrN2Pqyu4N312uBA24oB_7D_dNiW3hn744I");
-    const copiedFile = template.makeCopy(name, folderZone);
-    Logger.log(copiedFile.getName());
-    Logger.log(copiedFile.getId());
+    const copy = template.makeCopy(duplicateName, destinationFolder);
+    const copyId = copy.getId();
+
+    // DEBUG //
+    Logger.log(copy.getName());
+    Logger.log(copyId);
+    return copyId;
 }
 
 /**
- * get files and permissions
+ * Create form and config controls for places
+ * @param startRow {number}
+ * @param endRow {number}
+ */
+function duplicateRange(startRow, endRow) {
+    const book = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = book.getSheetByName('places');
+
+}
+
+/**
+ * Update form for places
+ */
+function duplicateForms() {
+    duplicateRange(8, 11)
+}
+
+/**
+ * Get files and permissions
  */
 function getPermissions() {
-    const file = DriveApp.getFileById("<FILE_ID>");
-    const book = SpreadsheetApp.openById("<SHEET_ID>");
-    const nameFile = file.getName();
-    const nameBook = book.getName();
+    // Zonas Folder
+    const folder = DriveApp.getFolderById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
+    const nameFolder = folder.getName();
 
     // DEBUG //
-    Logger.log(nameFile);
-    Logger.log(nameBook);
+    Logger.log(nameFolder);
 }
