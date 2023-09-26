@@ -1,4 +1,10 @@
 /**
+ * @see template_file Código.gs
+ * Customize a Google Form Response
+ * @author GncDev <@GncDev>
+ */
+
+/**
  * Get name active form
  * @returns {string}
  */
@@ -13,7 +19,7 @@ function getNameActiveForm() {
  * Rename file with prefix, conserve user
  * @param fileId {string}
  * @param prefix {string}
- * @returns {string}
+ * @returns {Array<string>}
  */
 function renameFile(fileId, prefix) {
     const file = DriveApp.getFileById(fileId);
@@ -29,9 +35,9 @@ function renameFile(fileId, prefix) {
 }
 
 /**
- * save response to google sheets
+ * Save response to google sheets
  * @param sheetName {string}
- * @param data {Array<>}
+ * @param data {Array<number, string>}
  */
 function saveResponse(sheetName, data) {
     let date = new Date().toLocaleString();
@@ -83,7 +89,7 @@ function updateResponse(e) {
 }
 
 /**
- * get files and permissions
+ * Get files and permissions
  */
 function getPermissions() {
     const file = DriveApp.getFileById("<FILE_ID>");

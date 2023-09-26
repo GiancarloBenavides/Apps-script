@@ -1,5 +1,6 @@
 /**
- * Customize the options of a google forms
+ * @see election_campaign places.gs
+ * Create multiple Google Forms from one Google Sheet
  * @author GncDev <@GncDev>
  */
 

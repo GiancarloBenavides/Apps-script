@@ -1,5 +1,6 @@
 /**
- * Customize the options of a google forms
+ * @see election_campaign witness.gs
+ * Create a Google Form with Custom Options from Google Sheets
  * @author GncDev <@GncDev>
  */
 
