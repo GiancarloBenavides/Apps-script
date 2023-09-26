@@ -158,9 +158,9 @@ function createForms() {
  */
 function getPermissions() {
     // Zonas Folder
-    const folder = DriveApp.getFolderById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
-    const nameFolder = folder.getName();
+    const book = SpreadsheetApp.getActiveSpreadsheet();
+    const bookId = book.getId();
 
     // DEBUG //
-    Logger.log(nameFolder);
+    Logger.log(bookId);
 }
