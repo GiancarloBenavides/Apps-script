@@ -100,20 +100,20 @@ function getSheetData() {
     //let names = getRowsForCriteria(namesRange, zonesRange, 1);
     //let stations = getRowsForCriteria(stationsRange, codesRange, 101);
 
-    // Mapping of voting places name by zone
+    // mapping name voting places by zone
     /*let namesForZone = new Map();
     zones.forEach((zone) => {
         namesForZone.set(zone, getRowsForCriteria(namesRange, zonesRange, zone));
     });*/
 
-    // Mapping of voting places code by zone
+    // mapping voting places code by zone
     let codesForZone = new Map();
     zones.forEach((zone) => {
         codesForZone.set(zone, getRowsForCriteria(codesRange, zonesRange, zone));
     });
 
-    // mapping of number  of stations by voting places
-    // mapping of place codes by zone
+    // mapping the number of stations by voting places
+    // mapping voting place names by code
     let stationsForCode = new Map();
     let namesForCode = new Map();
     codes.forEach((code) => {

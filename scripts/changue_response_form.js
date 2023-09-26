@@ -1,0 +1,97 @@
+/**
+ * Get name active form
+ * @returns {string}
+ */
+function getNameActiveForm() {
+    let form = FormApp.getActiveForm();
+    let name = DriveApp.getFileById(form.getId()).getName();
+    return name;
+}
+
+
+/**
+ * Rename file with prefix, conserve user
+ * @param fileId {string}
+ * @param prefix {string}
+ * @returns {string}
+ */
+function renameFile(fileId, prefix) {
+    const file = DriveApp.getFileById(fileId);
+    const name = file.getName();
+    const sufix = name.split(" - ")[1].toLowerCase().replaceAll(" ", "-");
+    const newName = prefix + sufix;
+    const url = file.getUrl();
+    const user = sufix.split(".")[0];
+
+    // need permissions
+    file.setName(newName);
+    return [user, url];
+}
+
+/**
+ * save response to google sheets
+ * @param sheetName {string}
+ * @param data {Array<>}
+ */
+function saveResponse(sheetName, data) {
+    let date = new Date().toLocaleString();
+    const book = SpreadsheetApp.openById("<SHEET_ID>");
+    const sheet = book.getSheetByName(sheetName);
+    let id = sheet.getRange(sheet.getLastRow(), 1).getValue() + 1;
+    sheet.appendRow([id, ...data, date]);
+}
+
+/**
+ * Automatic update of files and response data
+ * @param e {Event}
+ */
+function updateResponse(e) {
+    const name = getNameActiveForm();
+    const zone = name.split("-")[0].substring(4);
+    const place = name.split("-")[1].substring(6);
+    const response = e.response;
+    const items = response.getItemResponses();
+    const station = items[1].getResponse().split(" ")[1];
+    const fileId = items[2].getResponse()[0];
+
+    // include data from form E-14
+    const option = items[0].getResponse();
+    if (option == "Un formulario E14") {
+        let type = "e14-";
+        let prefix = name + "-" + "mesa" + station + "-" + type;
+        let [user, url] = renameFile(fileId, prefix);
+        let votesN = items[3].getResponse();
+        let votesM = items[4].getResponse();
+        let votesT = items[5].getResponse();
+
+        // save votes in sheet
+        saveResponse("votes", [zone, place, station, votesN, votesM, votesT, url, user]);
+    } else {
+        let type = "claims-";
+        let prefix = name + "-" + "mesa" + station + "-" + type;
+        let [user, url] = renameFile(fileId, prefix);
+
+        // save claims in sheet
+        saveResponse("claims", [zone, place, station, url, user]);
+    }
+
+    // DEBUG //
+    Logger.log(newName);
+    items.forEach(item => {
+        Logger.log(item.getResponse());
+    })
+}
+
+/**
+ * get files and permissions
+ */
+function getPermissions() {
+    const file = DriveApp.getFileById("<FILE_ID>");
+    const book = SpreadsheetApp.openById("<SHEET_ID>");
+    const nameFile = file.getName();
+    const nameBook = book.getName();
+
+    // DEBUG //
+    Logger.log(nameFile);
+    Logger.log(nameBook);
+}
