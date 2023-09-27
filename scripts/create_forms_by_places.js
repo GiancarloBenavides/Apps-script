@@ -118,11 +118,10 @@ function createRangeForms(startRow, endRow) {
     const lastRowPlaces = getLastRowData(sheet, colCodePlaces);
     const namesRange = sheet.getRange(rowInit, colNamePlaces, lastRowPlaces).getValues();
     const codesRange = sheet.getRange(rowInit, colCodePlaces, lastRowPlaces).getValues();
-
-    let codePlaces = getDataColumn(sheet, colCodePlaces, lastRowPlaces);
     let ids = [];
 
     // mapping voting place names by code
+    let codePlaces = getDataColumn(sheet, colCodePlaces, lastRowPlaces);
     let namesForCode = new Map();
     codePlaces.forEach((code) => {
         namesForCode.set(code, getRowsForCriteria(namesRange, codesRange, code));
@@ -147,7 +146,7 @@ function createRangeForms(startRow, endRow) {
 }
 
 /**
- * Update form for places
+ * Create form for places
  */
 function createForms() {
     createRangeForms(1, 2)
