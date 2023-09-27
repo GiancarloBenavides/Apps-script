@@ -35,7 +35,7 @@ function renameFile(fileId, prefix) {
 }
 
 /**
- * Save response to google sheets
+ * Save response to google sheets <SHEET_ID>
  * @param sheetName {string}
  * @param data {Array<number, string>}
  */
@@ -63,8 +63,8 @@ function updateResponse(e) {
     // include data from form E-14
     const option = items[0].getResponse();
     if (option == "Un formulario E14") {
-        let type = "e14-";
-        let prefix = name + "-" + "mesa" + station + "-" + type;
+        let type = "e14";
+        let prefix = type + "-" + name + "-" + "mesa" + station + "-";
         let [user, url] = renameFile(fileId, prefix);
         let votesN = items[3].getResponse();
         let votesM = items[4].getResponse();
@@ -73,12 +73,12 @@ function updateResponse(e) {
         // save votes in sheet
         saveResponse("votes", [zone, place, station, votesN, votesM, votesT, url, user]);
     } else {
-        let type = "claims-";
-        let prefix = name + "-" + "mesa" + station + "-" + type;
+        let type = "reclamo";
+        let prefix = type + "-" + name + "-" + "mesa" + station + "-";
         let [user, url] = renameFile(fileId, prefix);
 
         // save claims in sheet
-        saveResponse("claims", [zone, place, station, url, user]);
+        saveResponse("claim", [zone, place, station, url, user]);
     }
 
     // DEBUG //
@@ -89,7 +89,7 @@ function updateResponse(e) {
 }
 
 /**
- * Get files and permissions
+ * Get files and permissions <FILE_ID> <SHEET_ID>
  */
 function getPermissions() {
     const file = DriveApp.getFileById("<FILE_ID>");
