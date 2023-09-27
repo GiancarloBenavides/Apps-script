@@ -64,3 +64,38 @@ function setZoneForm() {
         });
     ss.toast('Google Form Updated !!');
 }
+
+
+
+function test() {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheets()[0];
+    // Passing only two arguments returns a "range" with a single cell.
+    var range = sheet.getRange(8, 2, 1, 4);
+    var values = range.getValues();
+    values.forEach((value) => {
+        Logger.log(value);
+    })
+
+}
+
+
+function test2() {
+    const form = FormApp.openById("1MABjkjnGd-BFLVVAcWifxEithqI1xoNxhRJUerldQqE");
+    let items = form.getItems(FormApp.ItemType.LIST);
+
+    items.forEach((item) => {
+        if (item.getType() == 'LIST') {
+            var choices = []
+            var listItem = item.asListItem();
+            choices.push(listItem.createChoice('tres'))
+            choices.push(listItem.createChoice('cuatro'))
+            Logger.log(choices);
+            listItem.setChoices(choices);
+        }
+    })
+    Logger.log(form.getTitle());
+    Logger.log(form.getDescription());
+}
+
+

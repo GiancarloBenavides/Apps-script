@@ -14,7 +14,6 @@ function getNameActiveForm() {
     return name;
 }
 
-
 /**
  * Rename file with prefix, conserve user
  * @param fileId {string}
@@ -78,11 +77,10 @@ function updateResponse(e) {
         let [user, url] = renameFile(fileId, prefix);
 
         // save claims in sheet
-        saveResponse("claim", [zone, place, station, url, user]);
+        saveResponse("claims", [zone, place, station, url, user]);
     }
 
     // DEBUG //
-    Logger.log(newName);
     items.forEach(item => {
         Logger.log(item.getResponse());
     })

@@ -110,9 +110,9 @@ function createPlaceForm(code, name) {
  */
 function createRangeForms(startRow, endRow) {
     const rowInit = 2;
-    const colCodePlaces = 3;
-    const colNamePlaces = 4;
-    const colIds = 5;
+    const colCodePlaces = 1;
+    const colNamePlaces = 2;
+    const colFormIds = 4;
     const book = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = book.getSheetByName('places');
     const lastRowPlaces = getLastRowData(sheet, colCodePlaces);
@@ -142,7 +142,7 @@ function createRangeForms(startRow, endRow) {
     });
 
     // save forms ids 
-    setDataColumn(sheet, colIds, ids)
+    setDataColumn(sheet, colFormIds, ids)
 }
 
 /**
