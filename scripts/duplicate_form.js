@@ -78,10 +78,9 @@ function customPlaceForm(formId, zone, place, title, maxStations) {
  */
 function savePlaces(sheet, rowInit, last, data){
     const colUrl = 3;
-    const places = sheet.getRange(rowInit, colUrl, last, 2).getValues();
+    const places = sheet.getRange(rowInit, colUrl, last, 2);
     places.setValues(data);
 }
-
 
 /**
  * Duplicate form and config controls for places
@@ -105,7 +104,6 @@ function duplicateRange(startRow, endRow) {
         data.push([url, formId])
     })
     savePlaces(places, rowInit, last, data)
-
 }
 
 /**
