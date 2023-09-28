@@ -1,5 +1,5 @@
 /**
- * @see election_campaign drive.gs
+ * @see election_campaign rename.gs
  * Create multiple Google Forms from one template
  * @author GncDev <@GncDev>
  */
@@ -9,11 +9,18 @@
  * @param folderId {string}
  */
 function renameFolderResponses(folderId) {
-    const folder = DriveApp.getFolderById(folderId);
-    const files = folder.getFiles()
-    while (files.hasNext()) {
-        let file = files.next();
-        file.setTrashed(true)
+    const place = DriveApp.getFolderById(folderId);
+    const folders = place.getFolders();
+
+    while (folders.hasNext()) {
+        let folder = folders.next();
+        let name = folder.getName();
+
+        if (name.indexOf("E14") >= 0) {
+            folder.setName("E14");
+        } else {
+            folder.setName("Reclamos");
+        }
     }
 }
 
@@ -23,10 +30,11 @@ function renameFolderResponses(folderId) {
  */
 function mapPlacesFolder(folderId) {
     const place = DriveApp.getFolderById(folderId);
-    const folders = place.getFolders()
+    const folders = place.getFolders();
+
     while (folders.hasNext()) {
         let folder = folders.next();
-        renameFolderResponses(folder)
+        renameFolderResponses(folder);
     }
 }
 
@@ -49,7 +57,7 @@ function mapZoneFolder(folderId) {
  */
 function renameFolder() {
     const zonas = DriveApp.getFolderById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
-    const folders = zonas.getFolders()
+    const folders = zonas.getFolders();
 
     while (folders.hasNext()) {
         let folder = folders.next();

@@ -1,5 +1,5 @@
 /**
- * @see election_campaign drive.gs
+ * @see election_campaign clear.gs
  * Create multiple Google Forms from one template
  * @author GncDev <@GncDev>
  */
@@ -10,10 +10,11 @@
  */
 function removeFiles(folderId) {
     const folder = DriveApp.getFolderById(folderId);
-    const files = folder.getFiles()
+    const files = folder.getFiles();
+
     while (files.hasNext()) {
         let file = files.next();
-        file.setTrashed(true)
+        file.setTrashed(true);
     }
 }
 
@@ -23,10 +24,11 @@ function removeFiles(folderId) {
  */
 function mapPlacesFolder(folderId) {
     const place = DriveApp.getFolderById(folderId);
-    const folders = place.getFolders()
+    const folders = place.getFolders();
+
     while (folders.hasNext()) {
         let folder = folders.next();
-        removeFiles(folder)
+        removeFiles(folder);
     }
 }
 
@@ -49,7 +51,7 @@ function mapZoneFolder(folderId) {
  */
 function clearData() {
     const zonas = DriveApp.getFolderById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
-    const folders = zonas.getFolders()
+    const folders = zonas.getFolders();
 
     while (folders.hasNext()) {
         let folder = folders.next();
