@@ -6,10 +6,9 @@
 
 /**
  * Remove files from places folders 
- * @param folderId {string}
+ * @param folder {Folder}
  */
-function removeFiles(folderId) {
-    const folder = DriveApp.getFolderById(folderId);
+function _removeFiles(folder) {
     const files = folder.getFiles();
 
     while (files.hasNext()) {
@@ -22,13 +21,13 @@ function removeFiles(folderId) {
  * Get places folders
  * @param folderId {string}
  */
-function mapPlacesFolder(folderId) {
+function _mapPlacesFolder(folderId) {
     const place = DriveApp.getFolderById(folderId);
     const folders = place.getFolders();
 
     while (folders.hasNext()) {
         let folder = folders.next();
-        removeFiles(folder);
+        _removeFiles(folder);
     }
 }
 
@@ -36,13 +35,17 @@ function mapPlacesFolder(folderId) {
  * Get Zone folders
  * @param folderId {string}
  */
-function mapZoneFolder(folderId) {
+function _mapZoneFolder(folderId) {
     const zona = DriveApp.getFolderById(folderId);
     const folders = zona.getFolders();
 
     while (folders.hasNext()) {
         let folder = folders.next();
-        mapPlacesFolder(folder.getId());
+
+        // DEBUG //
+        Logger.log(folder.getName());
+
+        _mapPlacesFolder(folder.getId());
     }
 }
 
@@ -55,6 +58,6 @@ function clearData() {
 
     while (folders.hasNext()) {
         let folder = folders.next();
-        mapZoneFolder(folder.getId());
+        _mapZoneFolder(folder.getId());
     }
 }

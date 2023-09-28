@@ -6,19 +6,17 @@
 
 /**
  * Rename folder from places folders response
- * @param folderId {string}
+ * @param folder {Folder}
  */
-function renameFolderResponses(folderId) {
-    const place = DriveApp.getFolderById(folderId);
-    const folders = place.getFolders();
+function _renameFolderResponses(folder) {
+    let name = folder.getName();
 
-    while (folders.hasNext()) {
-        let folder = folders.next();
-        let name = folder.getName();
-
-        if (name.indexOf("E14") >= 0) {
+    if (name.indexOf("E14") >= 0) {
+        if (name !== "E14") {
             folder.setName("E14");
-        } else {
+        }
+    } else {
+        if (name !== "Reclamos") {
             folder.setName("Reclamos");
         }
     }
@@ -28,13 +26,13 @@ function renameFolderResponses(folderId) {
  * Get places folders
  * @param folderId {string}
  */
-function mapPlacesFolder(folderId) {
+function _mapPlacesFolder(folderId) {
     const place = DriveApp.getFolderById(folderId);
     const folders = place.getFolders();
 
     while (folders.hasNext()) {
         let folder = folders.next();
-        renameFolderResponses(folder);
+        _renameFolderResponses(folder);
     }
 }
 
@@ -42,13 +40,17 @@ function mapPlacesFolder(folderId) {
  * Get Zone folders
  * @param folderId {string}
  */
-function mapZoneFolder(folderId) {
+function _mapZoneFolder(folderId) {
     const zona = DriveApp.getFolderById(folderId);
     const folders = zona.getFolders();
 
     while (folders.hasNext()) {
         let folder = folders.next();
-        mapPlacesFolder(folder.getId());
+
+        // DEBUG //
+        Logger.log(folder.getName());
+
+        _mapPlacesFolder(folder.getId());
     }
 }
 
@@ -61,6 +63,6 @@ function renameFolder() {
 
     while (folders.hasNext()) {
         let folder = folders.next();
-        mapZoneFolder(folder.getId());
+        _mapZoneFolder(folder.getId());
     }
 }
