@@ -34,13 +34,13 @@ function renameFile(fileId, prefix) {
 }
 
 /**
- * Save response to google sheets <SHEET_ID>
+ * Save response to google sheets
  * @param sheetName {string}
  * @param data {Array<number, string>}
  */
 function saveResponse(sheetName, data) {
     let date = new Date().toLocaleString();
-    const book = SpreadsheetApp.openById("<SHEET_ID>");
+    const book = SpreadsheetApp.openById("16YKIdZX0yAGlX1lDwKijMXHr44-sDTu_Ye4HWEBYiFw");
     const sheet = book.getSheetByName(sheetName);
     let id = sheet.getRange(sheet.getLastRow(), 1).getValue() + 1;
     sheet.appendRow([id, ...data, date]);
@@ -58,12 +58,14 @@ function updateResponse(e) {
     const items = response.getItemResponses();
     const station = items[1].getResponse().split(" ")[1];
     const fileId = items[2].getResponse()[0];
+    const criteria = "z" + zone + "p" + place + "m" + station;
+    const affix = name + "-" + "mesa" + station + "-" + criteria + "-"
 
     // include data from form E-14
     const option = items[0].getResponse();
     if (option == "Un formulario E14") {
         let type = "e14";
-        let prefix = type + "-" + name + "-" + "mesa" + station + "-";
+        let prefix = type + "-" + affix;
         let [user, url] = renameFile(fileId, prefix);
         let votesN = items[3].getResponse();
         let votesM = items[4].getResponse();
@@ -73,7 +75,7 @@ function updateResponse(e) {
         saveResponse("votes", [zone, place, station, votesN, votesM, votesT, url, user]);
     } else {
         let type = "reclamo";
-        let prefix = type + "-" + name + "-" + "mesa" + station + "-";
+        let prefix = type + "-" + affix;
         let [user, url] = renameFile(fileId, prefix);
 
         // save claims in sheet
@@ -87,11 +89,11 @@ function updateResponse(e) {
 }
 
 /**
- * Get files and permissions <FILE_ID> <SHEET_ID>
+ * Get files and permissions
  */
 function getPermissions() {
-    const file = DriveApp.getFileById("<FILE_ID>");
-    const book = SpreadsheetApp.openById("<SHEET_ID>");
+    const file = DriveApp.getFileById("114SpP_kIoKqWORIWrmm8er3VtnS9Jg0J");
+    const book = SpreadsheetApp.openById("16YKIdZX0yAGlX1lDwKijMXHr44-sDTu_Ye4HWEBYiFw");
     const nameFile = file.getName();
     const nameBook = book.getName();
 
