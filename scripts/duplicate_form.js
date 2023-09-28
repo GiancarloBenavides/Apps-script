@@ -21,6 +21,7 @@ function createStationsValues(maxStation) {
  * Duplicate a form in a specific folder
  * @param zone {number}
  * @param place {number}
+ * @returns {string} id
  */
 function duplicatePlaceForm(zone, place) {
     const duplicateName = "zona" + zone + "-puesto" + place;
@@ -40,6 +41,7 @@ function duplicatePlaceForm(zone, place) {
  * @param formId {string}
  * @param zone {number}
  * @param place {number}
+ * @returns {string} url
  */
 function customPlaceForm(formId, zone, place, title, maxStations) {
     const form = FormApp.openById(formId);
@@ -64,7 +66,22 @@ function customPlaceForm(formId, zone, place, title, maxStations) {
 
     // DEBUG //
     Logger.log(form.getTitle());
+    return form.getPublishedUrl();
 }
+
+/**
+ * Save resources id's
+ * @param sheet {Sheet}
+ * @param rowInit {number}
+ * @param last {number}
+ * @param data {Array<string>}
+ */
+function savePlaces(sheet, rowInit, last, data){
+    const colUrl = 3;
+    const places = sheet.getRange(rowInit, colUrl, last, 2).getValues();
+    places.setValues(data);
+}
+
 
 /**
  * Duplicate form and config controls for places
@@ -77,13 +94,18 @@ function duplicateRange(startRow, endRow) {
     const colZones = 2;
     const book = SpreadsheetApp.getActiveSpreadsheet();
     const sheet = book.getSheetByName('options');
+    const places = book.getSheetByName('places');
     const last = Math.min(sheet.getLastRow(), endRow - startRow);
-    const zonePlaces = sheet.getRange(rowInit, colZones, last, 4).getValues();
-
-    zonePlaces.forEach((zonePlace) => {
-        let id = duplicatePlaceForm(zonePlace[0], zonePlace[1]);
-        customPlaceForm(id, zonePlace[0], zonePlace[1], zonePlace[2], zonePlace[3]);
+    const options = sheet.getRange(rowInit, colZones, last, 4).getValues();
+    let data = [];
+    
+    options.forEach((zonePlace) => {
+        let formId = duplicatePlaceForm(zonePlace[0], zonePlace[1]);
+        let url = customPlaceForm(formId, zonePlace[0], zonePlace[1], zonePlace[2], zonePlace[3]);
+        data.push([url, formId])
     })
+    savePlaces(places, rowInit, last, data)
+
 }
 
 /**
