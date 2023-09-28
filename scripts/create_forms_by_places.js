@@ -36,8 +36,7 @@ function getDataColumn(sheet, column, lastRow) {
  * Appends a col data in the sheet.
  * @param sheet {Sheet}
  * @param column {number}
- * @param lastRow {number}
- * @returns {Array<string>}
+ * @param data {Array<string>}
  */
 function setDataColumn(sheet, column, data) {
     let range = sheet.getRange(2, column, data.length);
@@ -65,7 +64,8 @@ function getRowsForCriteria(data, criteriaRange, criteria) {
 /**
  * Create template form and config controls
  * @param code {string} (ZxxPxx)
- * @returns {string}
+ * @param name {string}
+ * @returns {string} id
  */
 function createPlaceForm(code, name) {
     let place = code.split("P")[1];
