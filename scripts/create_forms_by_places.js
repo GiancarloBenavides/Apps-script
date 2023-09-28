@@ -47,9 +47,9 @@ function setDataColumn(sheet, column, data) {
 
 /**
  * Filter data for criteria
- * @param sheet {Sheet}
- * @param column {number}
- * @param lastRow {number}
+ * @param data {Range}
+ * @param criteriaRange {Range}
+ * @param criteria {string}
  * @returns {Array<string>}
  */
 function getRowsForCriteria(data, criteriaRange, criteria) {
