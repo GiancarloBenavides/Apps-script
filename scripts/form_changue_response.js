@@ -8,7 +8,7 @@
  * Get name active form
  * @returns {string}
  */
-function getNameActiveForm() {
+function _getNameActiveForm() {
     let form = FormApp.getActiveForm();
     let name = DriveApp.getFileById(form.getId()).getName();
     return name;
@@ -20,7 +20,7 @@ function getNameActiveForm() {
  * @param prefix {string}
  * @returns {Array<string>}
  */
-function renameFile(fileId, prefix) {
+function _renameFile(fileId, prefix) {
     const file = DriveApp.getFileById(fileId);
     const name = file.getName();
     const sufix = name.split(" - ")[1].toLowerCase().replaceAll(" ", "-");
@@ -38,7 +38,7 @@ function renameFile(fileId, prefix) {
  * @param sheetName {string}
  * @param data {Array<number, string>}
  */
-function saveResponse(sheetName, data) {
+function _saveResponse(sheetName, data) {
     let date = new Date().toLocaleString();
     const book = SpreadsheetApp.openById("16YKIdZX0yAGlX1lDwKijMXHr44-sDTu_Ye4HWEBYiFw");
     const sheet = book.getSheetByName(sheetName);
@@ -51,7 +51,7 @@ function saveResponse(sheetName, data) {
  * @param e {Event}
  */
 function updateResponse(e) {
-    const name = getNameActiveForm();
+    const name = _getNameActiveForm();
     const zone = name.split("-")[0].substring(4);
     const place = name.split("-")[1].substring(6);
     const response = e.response;
@@ -66,20 +66,20 @@ function updateResponse(e) {
     if (option == "Un formulario E14") {
         let type = "e14";
         let prefix = type + "-" + affix;
-        let [user, url] = renameFile(fileId, prefix);
+        let [user, url] = _renameFile(fileId, prefix);
         let votesN = items[3].getResponse();
         let votesM = items[4].getResponse();
         let votesT = items[5].getResponse();
 
         // save votes in sheet
-        saveResponse("votes", [zone, place, station, votesN, votesM, votesT, url, user]);
+        _saveResponse("votes", [zone, place, station, votesN, votesM, votesT, url, user]);
     } else {
         let type = "reclamo";
         let prefix = type + "-" + affix;
-        let [user, url] = renameFile(fileId, prefix);
+        let [user, url] = _renameFile(fileId, prefix);
 
         // save claims in sheet
-        saveResponse("claims", [zone, place, station, url, user]);
+        _saveResponse("claims", [zone, place, station, url, user]);
     }
 
     // DEBUG //
