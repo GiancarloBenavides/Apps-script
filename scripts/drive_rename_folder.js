@@ -1,6 +1,6 @@
 /**
  * @see election_campaign rename.gs
- * Create multiple Google Forms from one template
+ * Rename multiple Google drive folder 
  * @author GncDev <@GncDev>
  */
 
