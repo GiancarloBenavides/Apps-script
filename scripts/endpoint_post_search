@@ -1,0 +1,55 @@
+/**
+ * @see wedd-invitation publicGet.gs
+ * Create endpoint for sheet de Google Sheet
+ * @author GncDev <@GncDev>
+ */
+
+ /**
+ * Create public post endpoint
+ * @param e {event}
+ */
+ function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("post.check");
+    var rows = sheet.getDataRange().getValues();
+    var headers = rows[0];
+
+    // Buscar los índices de las columnas dinámicamente
+    var idColIndex = headers.indexOf("id");
+    var adultosColIndex = headers.indexOf("adultos");
+    var ninosColIndex = headers.indexOf("niños");
+    var vegetarianosColIndex = headers.indexOf("vegetarianos");
+
+    if (idColIndex === -1 || adultosColIndex === -1 || ninosColIndex === -1 || vegetarianosColIndex === -1) {
+      throw new Error("No se encontraron las columnas requeridas en la cabecera.");
+    }
+
+    var filaEncontrada = -1;
+
+    // Buscar la fila del invitado usando su ID
+    for (var i = 1; i < rows.length; i++) {
+      if (rows[i][idColIndex].toString() === data.id.toString()) {
+        filaEncontrada = i + 1; // Las filas en Sheets son base 1
+        break;
+      }
+    }
+
+    if (filaEncontrada === -1) {
+      return ContentService.createTextOutput(JSON.stringify({ "status": "error", "message": "Invitado no encontrado" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // Actualizar las celdas específicas de esa fila
+    sheet.getRange(filaEncontrada, adultosColIndex + 1).setValue(data.adultos);
+    sheet.getRange(filaEncontrada, ninosColIndex + 1).setValue(data.niños);
+    sheet.getRange(filaEncontrada, vegetarianosColIndex + 1).setValue(data.vegetarianos);
+
+    return ContentService.createTextOutput(JSON.stringify({ "status": "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ "status": "error", "message": error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
